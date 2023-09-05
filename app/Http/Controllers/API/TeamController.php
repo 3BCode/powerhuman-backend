@@ -18,7 +18,7 @@ class TeamController extends Controller
         $name = $request->input('name');
         $limit = $request->input('limit', 10);
 
-        $teamQuery = Team::query();
+        $teamQuery = Team::withCount('employees');
 
         // Get single data
         if ($id) {
@@ -55,7 +55,7 @@ class TeamController extends Controller
             // Create team
             $team = Team::create([
                 'name' => $request->name,
-                'icon' => $path,
+                'icon' => isset($path) ? $path : '',
                 'company_id' => $request->company_id,
             ]);
 
@@ -105,7 +105,7 @@ class TeamController extends Controller
             $team = Team::find($id);
 
             // TODO: Check if team is owned by user
-            
+
 
             // Check if team exists
             if (!$team) {

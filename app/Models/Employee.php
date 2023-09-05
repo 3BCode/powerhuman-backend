@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Storage;
 
 class Employee extends Model
 {
@@ -25,8 +26,13 @@ class Employee extends Model
         'team_id',
         'role_id',
         'is_verified',
-        'verified_at'
+        'verified_at',
     ];
+
+    public function getPhotoAttribute()
+    {
+        return url('') . Storage::url($this->attributes['photo']);
+    }
 
     public function team()
     {
@@ -37,4 +43,5 @@ class Employee extends Model
     {
         return $this->belongsTo(Role::class);
     }
+
 }
